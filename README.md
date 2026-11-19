@@ -1,0 +1,40 @@
+# Astrae docs
+
+Documentation for [Astrae](https://github.com/astrae-dev/astrae), a Discord framework. Commands, events, cache policy, and SQL are Python. The websocket, HTTP client, and rate limiter run in a Rust extension in the same process.
+
+Read [the home page](index.md) first. Python 3.11+. The gateway needs the native extension (`maturin develop`). Redis is optional until you split processes or share cache.
+
+## Pages
+
+| Page | Purpose |
+| --- | --- |
+| [Home](index.md) | What ships, with the shapes you write. |
+| [Getting started](getting-started/index.md) | Install from source and run one command. |
+| [Guides](guides/index.md) | Commands, events, components, cache, shards, loops. |
+| [API reference](reference/index.md) | Names you import, and what they own. |
+| [Public exports](reference/exports.md) | Every `from astrae import …` name. |
+| [Operations](operations/index.md) | Dashboard, Redis, deploy. |
+| [CLI](cli.md) | `astrae cluster`. |
+| [Internals](internals/index.md) | Rust crates behind `astrae._native`. |
+| [Examples](examples/index.md) | Small files in the library's `examples/`. |
+| [Migrating from discord.py](migrating-from-discord-py.md) | Port notes. Familiar names, different runtime. |
+| [Development](development/index.md) | Checks to run when behavior changes. |
+
+## Preview
+
+MkDocs config lives in the library repo. These files are that repo's `docs/` tree.
+
+```bash
+git clone https://github.com/astrae-dev/astrae.git
+cd astrae
+uv sync --extra docs
+uv run mkdocs serve
+```
+
+`uv run mkdocs build --strict` fails on a broken link. Every folder keeps an `index.md`. A new page also needs a row in `mkdocs.yml`.
+
+Theme files in this tree: `stylesheets/theme.css`, `javascripts/theme.js`, `assets/astrae-logo.svg`.
+
+## Editing
+
+Say the default, who owns the resource, which intents or extras it needs, and what happens when it fails. A name on `from astrae import …` can still be unfinished. Voice types are stubs.
