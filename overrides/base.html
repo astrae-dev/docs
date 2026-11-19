@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  {%- if page and page.is_homepage %}
+  <meta name="description" content="{{ config.site_description }}">
+  {%- endif %}
+  {%- if page and page.canonical_url %}
+  <link rel="canonical" href="{{ page.canonical_url }}">
+  {%- endif %}
+  <title>{% if page and page.title and not page.is_homepage %}{{ page.title }} - {% endif %}{{ config.site_name }}</title>
+  <link rel="icon" href="{{ 'assets/astrae-logo.svg'|url }}" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700&family=JetBrains+Mono:wght@400;500&display=swap">
+  {%- if config.theme.highlightjs and not (page and page.is_homepage) %}
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+  {%- endif %}
+  {%- for path in config.extra_css %}
+  <link rel="stylesheet" href="{{ path|url }}">
+  {%- endfor %}
+</head>
+<body class="{% if page and page.is_homepage %}page-home{% elif page %}page-docs{% else %}page-missing{% endif %}">
+  <a class="skip" href="#content">Skip to content</a>
+  <header class="bar">
+    <a class="wordmark" href="{{ nav.homepage.url|url }}">astrae</a>
+    <nav class="bar-links" aria-label="Sections">
+      <a href="{{ 'getting-started/'|url }}"{% if page and (page.url.startswith('getting-started') or page.url.startswith('migrating') or (page.url.startswith('guides') and not page.url.startswith('guides/caching') and not page.url.startswith('guides/sharding'))) %} aria-current="page"{% endif %}>Guide</a>
+      <a href="{{ 'guides/caching/'|url }}"{% if page and page.url.startswith('guides/caching') %} aria-current="page"{% endif %}>Cache</a>
+      <a href="{{ 'guides/sharding/'|url }}"{% if page and page.url.startswith('guides/sharding') %} aria-current="page"{% endif %}>Cluster</a>
+      <a href="{{ 'operations/metrics/'|url }}"{% if page and page.url.startswith('operations') %} aria-current="page"{% endif %}>Metrics</a>
+      <a href="{{ 'reference/'|url }}"{% if page and page.url.startswith('reference') %} aria-current="page"{% endif %}>API</a>
+    </nav>
+    <div class="bar-tools">
+      {%- if 'search' in config.plugins %}
+      <button class="search-open" type="button" data-search-open aria-label="Search the docs">
+        <svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="8.5" cy="8.5" r="5.5" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M13 13l5 5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+        <span>Search</span><kbd>/</kbd>
+      </button>
+      {%- endif %}
+      <a class="repo" href="{{ config.repo_url }}" aria-label="Source on GitHub">
+        <svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M8 0a8 8 0 00-2.5 15.6c.4 0 .5-.2.5-.4v-1.5c-2.2.5-2.7-1-2.7-1-.4-.9-.9-1.2-.9-1.2-.7-.5.1-.5.1-.5.8.1 1.2.8 1.2.8.7 1.3 1.9.9 2.4.7 0-.5.3-.9.5-1.1-1.8-.2-3.6-.9-3.6-4 0-.9.3-1.6.8-2.1-.1-.2-.4-1 .1-2.1 0 0 .7-.2 2.2.8a7.5 7.5 0 014 0c1.5-1 2.2-.8 2.2-.8.4 1.1.2 1.9.1 2.1.5.6.8 1.3.8 2.1 0 3.1-1.9 3.8-3.6 4 .3.3.6.8.6 1.5v2.2c0 .2.1.5.6.4A8 8 0 008 0z"/></svg>
+      </a>
+    </div>
+  </header>
+
+  {% block content %}
+  {%- if page and page.is_homepage %}
+  <main id="content">
+      {{ page.content }}
+  </main>
+  {%- elif page %}
+  <div class="docs-layout">
+    <nav class="doc-nav" aria-label="Documentation">
+      <button class="doc-nav-toggle" type="button" data-nav-toggle aria-expanded="false">On this site</button>
+      <div class="doc-nav-body" data-nav-body>
+        <div class="doc-nav-inner">
+          {%- set ns = namespace(section=None) %}
+          {%- for nav_item in nav %}
+            {%- if nav_item.active and nav_item.children %}
+              {%- set ns.section = nav_item %}
+            {%- endif %}
+          {%- endfor %}
+          {%- if ns.section %}
+            <p class="doc-nav-title">{{ ns.section.title }}</p>
+            <ul class="tree">
+              {%- for child in ns.section.children %}
+                <li>
+                  {%- if child.children %}
+                    <details{% if child.active %} open{% endif %}>
+                      <summary>{{ child.title }}</summary>
+                      <ul class="tree">
+                        {%- for grandchild in child.children %}
+                          <li>
+                            <a href="{{ grandchild.url|url }}"{% if grandchild == page %} aria-current="page"{% endif %}>{{ grandchild.title }}</a>
+                          </li>
+                        {%- endfor %}
+                      </ul>
+                    </details>
+                  {%- else %}
+                    <a href="{{ child.url|url }}"{% if child == page %} aria-current="page"{% endif %}>{{ child.title }}</a>
+                  {%- endif %}
+                </li>
+              {%- endfor %}
+            </ul>
+          {%- else %}
+            <p class="doc-nav-title">Docs</p>
+            <ul class="tree">
+              {%- for nav_item in nav %}
+                {%- if not nav_item.is_homepage %}
+                  <li>
+                    <a href="{{ nav_item.url|url }}"{% if nav_item == page %} aria-current="page"{% endif %}>{{ nav_item.title }}</a>
+                  </li>
+                {%- endif %}
+              {%- endfor %}
+            </ul>
+          {%- endif %}
+        </div>
+      </div>
+    </nav>
+
+    <main id="content" class="doc-main prose">
+      {%- if ns.section %}
+      <p class="doc-kicker">{{ ns.section.title }}</p>
+      {%- endif %}
+      {{ page.content if page else '' }}
+      {%- if page and (page.next_page or page.previous_page) %}
+      <nav class="pager" aria-label="Page">
+        {%- if page.previous_page %}
+        <a href="{{ page.previous_page.url|url }}"><span>Previous</span>{{ page.previous_page.title }}</a>
+        {%- endif %}
+        {%- if page.next_page %}
+        <a class="pager-next" href="{{ page.next_page.url|url }}"><span>Next</span>{{ page.next_page.title }}</a>
+        {%- endif %}
+      </nav>
+      {%- endif %}
+    </main>
+
+    <aside class="doc-toc" aria-label="On this page">
+      {%- if page and page.toc %}
+      <p class="doc-toc-title">On this page</p>
+      <ul>
+        {%- for toc_item in page.toc %}
+          <li class="toc-{{ toc_item.level }}">
+            <a href="{{ toc_item.url }}">{{ toc_item.title }}</a>
+            {%- if toc_item.children %}
+              <ul>
+                {%- for child in toc_item.children %}
+                  <li class="toc-{{ child.level }}"><a href="{{ child.url }}">{{ child.title }}</a></li>
+                {%- endfor %}
+              </ul>
+            {%- endif %}
+          </li>
+        {%- endfor %}
+      </ul>
+      {%- endif %}
+    </aside>
+  </div>
+  {%- endif %}
+  {% endblock %}
+
+  <footer class="foot">
+    <p>Astrae is proprietary software. Discord is a trademark of Discord Inc.; Astrae is not affiliated with it.</p>
+    <p>
+      <a href="{{ config.repo_url }}">Source</a>
+      <a href="{{ 'getting-started/installation/'|url }}">Install</a>
+    </p>
+  </footer>
+
+  {%- if 'search' in config.plugins %}
+  <div class="search" data-search hidden>
+    <div class="search-panel" role="dialog" aria-modal="true" aria-label="Search the docs">
+      <label class="search-field">
+        <svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="8.5" cy="8.5" r="5.5" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M13 13l5 5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+        <span class="visually-hidden">Search</span>
+        <input id="mkdocs-search-query" type="search" placeholder="Search guides and the API reference" autocomplete="off" spellcheck="false">
+      </label>
+      <div id="mkdocs-search-results" class="search-results" data-no-results-text="Nothing matches. Try a class name such as Client, or a topic such as cache."></div>
+    </div>
+  </div>
+  {%- endif %}
+
+  <script>var base_url = {{ base_url|tojson }};</script>
+  {%- if config.theme.highlightjs and not (page and page.is_homepage) %}
+  <script>hljs.highlightAll();</script>
+  {%- endif %}
+  {%- for script in config.extra_javascript %}
+    {{ script|script_tag }}
+  {%- endfor %}
+</body>
+</html>

@@ -560,8 +560,22 @@ body.page-docs, body.page-missing { background: var(--bg); }
   .doc-toc { display: none; }
 }
 @media (max-width: 60rem) {
-  .bar { gap: 1rem; --inset: 1rem; }
-  .bar-links { display: none; }
+  .bar {
+    gap: 0.65rem 1rem;
+    --inset: 1rem;
+    height: auto;
+    min-height: var(--bar-height);
+    flex-wrap: wrap;
+    padding-top: 0.6rem;
+    padding-bottom: 0.6rem;
+  }
+  .bar-links {
+    display: flex;
+    order: 3;
+    flex: 1 1 100%;
+    gap: 0.15rem;
+    overflow-x: auto;
+  }
   .search-open { min-width: 0; }
   .search-open span, .search-open kbd { display: none; }
   .docs-layout { grid-template-columns: minmax(0, 1fr); gap: 0; padding: 0 1rem; }
