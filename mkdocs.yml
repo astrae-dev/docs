@@ -1,0 +1,64 @@
+site_name: Astrae
+site_description: Type-safe Discord framework with a Rust runtime and Python API
+repo_url: https://github.com/EvictServices/astrae
+docs_dir: docs
+theme:
+  name: mkdocs
+  custom_dir: overrides
+  highlightjs: true
+  hljs_style_dark: github-dark
+  color_mode: dark
+  navigation_depth: 3
+extra_css:
+  - stylesheets/theme.css
+extra_javascript:
+  - javascripts/theme.js
+nav:
+  - Home: index.md
+  - Getting started:
+      - Overview: getting-started/index.md
+      - Installation: getting-started/installation.md
+      - Quickstart: getting-started/quickstart.md
+  - Migration:
+      - From discord.py: migrating-from-discord-py.md
+  - Guides:
+      - Overview: guides/index.md
+      - Commands: guides/commands.md
+      - Events: guides/events.md
+      - Components and interactions: guides/interactions.md
+      - Caching: guides/caching.md
+      - Sharding: guides/sharding.md
+      - Background tasks: guides/tasks.md
+  - Operations:
+      - Overview: operations/index.md
+      - Metrics API and dashboard: operations/metrics.md
+      - Deployment: operations/deployment.md
+  - CLI: cli.md
+  - API reference:
+      - Overview: reference/index.md
+      - Client: reference/client/index.md
+      - Commands: reference/commands/index.md
+      - Core models: reference/core/index.md
+      - Protocol types: reference/core/types.md
+      - Database: reference/db/index.md
+      - Jishaku: reference/jishaku/index.md
+      - REST: reference/rest/index.md
+      - Runtime: reference/runtime/index.md
+      - Reference map: reference/public-api.md
+      - REST resources: reference/rest/resources.md
+      - Core models and builders: reference/core/catalog.md
+      - Commands API details: reference/commands/catalog.md
+      - Voice: reference/client/voice.md
+      - Module-by-module coverage: reference/module-index.md
+      - Public exports: reference/exports.md
+  - Internals:
+      - Overview: internals/index.md
+      - Rust crates: internals/rust.md
+  - Examples: examples/index.md
+  - Development: development/index.md
+markdown_extensions:
+  - admonition
+  - fenced_code
+  - tables
+  - toc:
+      permalink: true
