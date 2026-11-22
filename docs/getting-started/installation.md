@@ -5,7 +5,7 @@ install will not open a gateway.
 
 ```bash
 pip install maturin
-git clone https://github.com/astrae-dev/astrae.git
+git clone https://git.azron.net/astrae/astrae.git
 cd astrae
 maturin develop
 ```

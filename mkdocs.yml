@@ -1,6 +1,6 @@
 site_name: Astrae
 site_description: Type-safe Discord framework with a Rust runtime and Python API
-repo_url: https://github.com/astrae-dev/astrae
+repo_url: https://git.azron.net/astrae/astrae
 docs_dir: docs
 theme:
   name: mkdocs

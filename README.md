@@ -1,6 +1,6 @@
 # Astrae docs
 
-Documentation for [Astrae](https://github.com/astrae-dev/astrae), a Discord framework. Commands, events, cache policy, and SQL are Python. The websocket, HTTP client, and rate limiter run in a Rust extension in the same process.
+Documentation for [Astrae](https://git.azron.net/astrae/astrae), a Discord framework. Commands, events, cache policy, and SQL are Python. The websocket, HTTP client, and rate limiter run in a Rust extension in the same process.
 
 Read [the home page](docs/index.md) first. Python 3.11+. The gateway needs the native extension (`maturin develop`). Redis is optional until you split processes or share cache.
 
@@ -25,7 +25,7 @@ Read [the home page](docs/index.md) first. Python 3.11+. The gateway needs the n
 MkDocs config lives in the library repo. These files are that repo's `docs/` tree.
 
 ```bash
-git clone https://github.com/astrae-dev/astrae.git
+git clone https://git.azron.net/astrae/astrae.git
 cd astrae
 uv sync --extra docs
 uv run mkdocs serve
